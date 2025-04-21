@@ -1,0 +1,43 @@
+-- واجهة بسيطة
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local toggleBtn = Instance.new("TextButton", ScreenGui)
+
+toggleBtn.Size = UDim2.new(0, 120, 0, 40)
+toggleBtn.Position = UDim2.new(0, 20, 0, 80)
+toggleBtn.Text = "Start Collect"
+toggleBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+toggleBtn.TextColor3 = Color3.new(1, 1, 1)
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.TextSize = 16
+
+Instance.new("UICorner", toggleBtn)
+
+-- جمع البوشن
+local collecting = false
+local function collectLuckyPotion()
+    while collecting do
+        local player = game.Players.LocalPlayer
+        local char = player.Character or player.CharacterAdded:Wait()
+        local hrp = char:FindFirstChild("HumanoidRootPart")
+        if not hrp then return end
+
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:IsA("Part") and obj.Name == "LuckyPotion" then
+                hrp.CFrame = obj.CFrame + Vector3.new(0, 5, 0)
+                wait(0.5)
+            end
+        end
+        wait(1)
+    end
+end
+
+-- التحكم بزر التبديل
+toggleBtn.MouseButton1Click:Connect(function()
+    collecting = not collecting
+    toggleBtn.Text = collecting and "Stop Collect" or "Start Collect"
+    toggleBtn.BackgroundColor3 = collecting and Color3.fromRGB(200, 50, 50) or Color3.fromRGB(50, 200, 50)
+    
+    if collecting then
+        task.spawn(collectLuckyPotion)
+    end
+end)
