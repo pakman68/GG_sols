@@ -1,0 +1,38 @@
+-- Auto Collect Lucky Potion
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local HumanoidRootPart = Character:WaitForChild("HumanoidRootPart")
+
+local collecting = true
+
+-- اسم العنصر اللي تبغى تجمعه
+local itemName = "LuckyPotion" -- غيّر الاسم إذا كان مختلف داخل اللعبة
+
+-- زر لإيقاف الجمع
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local StopBtn = Instance.new("TextButton", ScreenGui)
+StopBtn.Size = UDim2.new(0, 120, 0, 40)
+StopBtn.Position = UDim2.new(0, 10, 0, 10)
+StopBtn.Text = "إيقاف الجمع"
+StopBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+StopBtn.TextColor3 = Color3.new(1, 1, 1)
+
+StopBtn.MouseButton1Click:Connect(function()
+    collecting = false
+    StopBtn.Text = "تم الإيقاف"
+end)
+
+-- وظيفة الجمع
+RunService.RenderStepped:Connect(function()
+    if not collecting then return end
+
+    for _, item in pairs(workspace:GetDescendants()) do
+        if item:IsA("BasePart") and item.Name == itemName then
+            -- يروح له
+            HumanoidRootPart.CFrame = item.CFrame + Vector3.new(0, 3, 0)
+            wait(0.5)
+        end
+    end
+end)
