@@ -1,0 +1,39 @@
+-- واجهة Luminosity Fake Roll
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- إنشاء الواجهة
+local gui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(1, 0, 1, 0)
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BackgroundTransparency = 0.2
+
+local text = Instance.new("TextLabel", frame)
+text.Size = UDim2.new(1, 0, 0.3, 0)
+text.Position = UDim2.new(0, 0, 0.35, 0)
+text.BackgroundTransparency = 1
+text.Text = "YOU ROLLED: LUMINOSITY"
+text.TextColor3 = Color3.fromRGB(255, 255, 255)
+text.TextStrokeTransparency = 0.5
+text.Font = Enum.Font.GothamBlack
+text.TextScaled = true
+
+-- صورة Luminosity (استخدم ID الصورة الخاصة)
+local image = Instance.new("ImageLabel", frame)
+image.Size = UDim2.new(0, 200, 0, 200)
+image.Position = UDim2.new(0.5, -100, 0.2, 0)
+image.BackgroundTransparency = 1
+image.Image = "rbxassetid://16086746317" -- ضع هنا ID صورة Luminosity
+
+-- تأثير بسيط (اختياري)
+game:GetService("TweenService"):Create(text, TweenInfo.new(0.5, Enum.EasingStyle.Bounce), {
+	TextColor3 = Color3.fromRGB(255, 200, 0)
+}):Play()
+
+wait(6)
+
+-- حذف الواجهة
+gui:Destroy()
